@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Add this line to your HTML file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Music Genre Website</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            height: 100vh; /* Make the body take up the full viewport height */
+        }
+        #genreMenu, #playlist {
+            padding: 20px;
+            background-color: #f0f0f0;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+            border-radius:20px;
+            margin-bottom: 10px;
+            margin-top: 20px;
+            padding-left: 20px;
+            
+        }
+        #playlist {
+            background-color: #fff;
+            box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            padding-left: 40px;
+            padding-top: 40px;
+        }
+        .song {
+            display: flex;
+            align-items: center;
+            border: 1px solid #bab9b9;
+            fill: #bab9b9;
+            border-radius: 20px;
+            padding: 10px;
+            margin-bottom: 5px;
+        }
+        .song img {
+            width: 80px;
+            border-radius: 10px ;
+            box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .genre {
+            margin-bottom: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .genre img {
+            width: 50px;
+            margin-right: 10px;
+            border-radius: 5px;
+            box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
+        }
+        .genre:hover {
+            color: rgb(0, 144, 48);
+        }
+        #musicPlayer {
+            background-color: #f0f0f0;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+            border-radius: 20px 20px 0 0;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #content {
+            display: flex;
+            flex-grow: 1; /* Make the content div take up all remaining space */
+            overflow: hidden; /* Hide any overflowing content */
+        }
+        #genreMenu, #playlist, #musicInfo {
+            overflow-y: auto;
+        }
+        .genreInfo {
+            display: flex; /* This will make the image and description align horizontally */
+            align-items: center; /* This will vertically center the image and description */
+            margin-bottom: 30px;
+        }
+        .genreInfo img {
+            width: 250px;
+            border-radius: 20px;
+            margin-right: 30px;
+            box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
+        }
+        .genreInfo h2 {
+            font-size: 100px;
+            margin-bottom: 5px;
+            margin-top: 30px;
+        }
+        .genreInfo p {
+            width: 600px;
+        }
+
+
+        #music-controls {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding-left: 5px;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: #383838c3; 
+            font-size: 24px; 
+            margin: 0 15px; 
+        }
+
+        .control-btn i {
+            cursor: pointer;
+        }
+  
+        #play-pause.playing i {
+            content: '\f04c'; 
+        }
+
+        #song-image {
+            width: 80px !important;
+            height: 80px !important;
+            border-radius: 10px !important;
+        }
+
+        
+        
+
+        /* Styles for screens that are 600px or wider */
+        @media screen and (min-width: 600px) {
+            body {
+                flex-direction: row;
+            }
+            #genreMenu {
+                width: 200px;
+                height: calc(100vh - 60px); /* Subtract the height of the music player */
+                margin-right: 10px;
+            }
+            #playlist {
+                flex-grow: 1;
+                height: calc(100vh - 60px); /* Subtract the height of the music player */
+            }
+
+            #musicPlayer {
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                height: 60px;
+            }
+            .song {
+                margin-bottom: 10px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+            }
+            .song h3, .song p {
+            display: block;
+            margin-left: 10px;
+            }
+            .song:hover {
+                color: rgb(0, 144, 48);
+            }
+            #musicPlayer {
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                height: 80px;
+                background-color: #f0f0f0;
+                box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+                border-radius: 20px 20px 0 0;
+                padding: 10px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            #musicPlayer img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
+            }
+            #musicPlayer div {
+                flex-grow: 1;
+                margin-left: 20px;
+            }
+            #musicPlayer button {
+                margin-right: 20px;
+            }
+            #musicInfo {
+            width: 300px;
+            height: calc(100vh - 60px); /* Subtract the height of the music player */
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            margin-left: 10px;
+            margin-top: 20px;
+            padding-left: 20px;
+            align-items: center;
+            }
+            #musicInfo img {
+                width: 300px;
+                object-fit: cover;
+                border-radius: 10px;
+                box-shadow: -5px 5px 15px rgba(0,0,0,0.1);
+            }
+            #musicInfo h3, #musicInfo p {
+                margin-left: 9px;
+            }
+
+        }
+    </style>
+    
+</head>
+<body>
+    <div id="genreMenu">
+        <h2>Genres</h2>
+        <div class="genre" onclick="showPlaylist('Rock')">
+            <img src="rock.jpg" alt="Rock">
+            <p>Rock</p>
+        </div>
+        <div class="genre" onclick="showPlaylist('Pop')">
+            <img src="pop.jpg" alt="Pop">
+            <p>Pop</p>
+        </div>
+        <div class="genre" onclick="showPlaylist('Jazz')">
+            <img src="jazz.jpg" alt="Jazz">
+            <p>Jazz</p>
+        </div>
+        <!-- Add more genres as needed -->
+    </div>
+
+    <div id="content">
+        <div id="playlist">
+            <!-- The playlist will be populated here when a genre is clicked -->
+        </div>
+        <div id="musicInfo">
+            <!-- The music info will be populated here when a song is clicked -->
+        </div>
+
+    </div>
+   
+    <div id="musicPlayer">
+        <img id="song-image" alt="Song">
+        <div>
+            <h3 id="song-title">Song Title</h3> 
+            <p id="song-artist">Artist Name</p>
+        </div>
+        <div id="music-controls">
+            <button class="control-btn" id="prev-song">
+                <!-- Previous song icon -->
+                <i class="fas fa-step-backward"></i>
+            </button>
+            <button class="control-btn" id="play-pause">
+                <!-- Play/Pause icon -->
+                <i class="fas fa-play"></i> <!-- Change to 'fa-pause' when the music is playing -->
+            </button>
+            <button class="control-btn" id="next-song">
+                <!-- Next song icon -->
+                <i class="fas fa-step-forward"></i>
+            </button>
+            <button class="control-btn" id="repeat-song">
+                <!-- Repeat icon -->
+                <i class="fas fa-redo"></i>
+            </button>
+            <button class="control-btn" id="random-song">
+                <!-- Random song icon -->
+                <i class="fas fa-random"></i>
+            </button>
+            <input type="range" id="seek-slider" class="slider" min="0" max="100" step="1" value="0">
+            <input type="range" id="volume-slider" class="slider" min="0" max="100" step="1" value="100">
+        </div> 
+        <div id="song-time">
+            <span id="curr_time">00:00</span> / <span id="total_duration">00:00</span>
+        </div>       
+    </div>
+
+    <script>
+        var genres = {
+            'Rock': {
+                'image': 'rock.jpg',
+                'description': 'Rock music is a broad genre of popular music that originated as "rock and roll" in the United States in the late 1940s and early 1950s.',
+                'songs': [
+                    {
+                            'music': 'music/1.mp3',
+                            'title': 'Bohemian Rhapsody', 
+                            'artist': 'Queen', 
+                            'image': 'bohemian_rhapsody.jpg',
+                            'album': 'A Night at the Opera',
+                            'description': 'Bohemian Rhapsody is a song by the British rock band Queen, released as the lead single from their fourth studio album, A Night at the Opera (1975). Written by lead singer Freddie Mercury, the song is a six-minute suite, notable for its lack of a refraining chorus and consisting of several sections: an intro, a ballad segment, an operatic passage, a hard rock part and a reflective coda[^1^][1].',
+                            'artistBio': 'Queen are a British rock band formed in London in 1970 by Freddie Mercury (lead vocals, piano), Brian May (guitar, vocals), and Roger Taylor (drums, vocals), later joined by John Deacon (bass)[^2^][6].'
+                    },
+                    {'title': 'Stairway to Heaven', 'artist': 'Led Zeppelin', 'image': 'stairway_to_heaven.jpg'},
+                    // Add more songs as needed
+                ]
+            },
+            'Pop': {
+                'image': 'pop.jpg',
+                'description': 'Pop is a genre of popular music that originated in its modern form during the mid-1950s in the United States and the United Kingdom.',
+                'songs': [
+                    {'title': 'Thriller', 'artist': 'Michael Jackson', 'image': 'thriller.jpg'},
+                    {'title': 'Like a Prayer', 'artist': 'Madonna', 'image': 'like_a_prayer.jpg'},
+                    // Add more songs as needed
+                ]
+            },
+            'Jazz': {
+                'image': 'jazz.jpg',
+                'description': 'Jazz is a music genre that originated in the African-American communities of New Orleans, United States in the late 19th and early 20th centuries.',
+                'songs': [
+                    {'title': 'So What', 'artist': 'Miles Davis', 'image': 'so_what.jpg'},
+                    {'title': 'Take Five', 'artist': 'Dave Brubeck', 'image': 'take_five.jpg'},
+                    // Add more songs as needed
+                ]
+            }
+            // Add more genres as needed
+        };
+
+        var index = 0;
+        var isPlaying = false;
+        var updateTimer;
+        var curr_track = new Audio();
+        var random_btn = document.getElementById('random-song');
+        var repeat_btn = document.getElementById('repeat-song');
+        var playpause_track = document.getElementById('play-pause');
+        var next_track = document.getElementById('next-song');
+        var prev_track = document.getElementById('prev-song');
+        var seek_slider = document.getElementById('seek-slider');
+        var volume_slider = document.getElementById('volume-slider');
+        var curr_time = document.getElementById('curr_time');
+        var total_duration = document.getElementById('total_duration');
+
+        function loadTrack(genre, index) {
+            clearInterval(updateTimer);
+            resetValues();
+
+            // Use the audio object and currentSong variable
+            curr_track.src = genres[genre].songs[index].music;
+            curr_track.load();
+
+            document.querySelector('#musicPlayer img').src = genres[genre].songs[index].image;
+            document.querySelector('#musicPlayer h3').textContent = genres[genre].songs[index].title;
+            document.querySelector('#musicPlayer p').textContent = genres[genre].songs[index].artist;
+
+            updateTimer = setInterval(seekUpdate, 1000);
+
+            // Add event listeners for the ended event and the click events of the buttons
+            curr_track.addEventListener("ended", function() { nextTrack(genre); });
+            document.getElementById('play-pause').addEventListener("click", playpauseTrack);
+            document.getElementById('next-song').addEventListener("click", function() { nextTrack(genre); });
+            document.getElementById('prev-song').addEventListener("click", function() { prevTrack(genre); });
+            
+            curr_track.addEventListener("ended", function() { nextTrack(genre); });
+            random_btn.addEventListener("click", randomTrack);
+            repeat_btn.addEventListener("click", repeatTrack);
+            playpause_track.addEventListener("click", playpauseTrack);
+            next_track.addEventListener("click", function() { nextTrack(genre); });
+            prev_track.addEventListener("click", function() { prevTrack(genre); });
+            seek_slider.addEventListener("change", seekTo);
+            volume_slider.addEventListener("change", setVolume);
+        }
+
+        function playpauseTrack() {
+            if (curr_track.paused) {
+                curr_track.play(); // If the song is paused, play it
+            } else {
+                curr_track.pause(); // If the song is playing, pause it
+            }
+        }
+        function nextTrack(genre) {
+            track_index = (track_index + 1) % genres[genre].songs.length; // Move to the next song in the array
+            loadTrack(genre, track_index); // Load the next song
+            curr_track.play(); // Play the song
+        }
+        function prevTrack(genre) {
+            track_index = (track_index - 1 + genres[genre].songs.length) % genres[genre].songs.length; // Move to the previous song in the array
+            loadTrack(genre, track_index); // Load the previous song
+            curr_track.play(); // Play the song
+        }
+
+        function resetValues() {
+            curr_time.textContent = "00:00";
+            total_duration.textContent = "00:00";
+            seek_slider.value = 0;
+        }
+
+        function showPlaylist(genre) {
+            var playlist = document.getElementById('playlist');
+            var genreImage = genres[genre].image;
+            var genreDescription = genres[genre].description;
+            var songs = genres[genre].songs;
+            var playlistHTML = '<div class="genreInfo">' +
+                    '<img src="' + genreImage + '" alt="' + genre + '">' +
+                    '<div>' + // Add a div here
+                    '<h2>' + genre + '</h2>' + // Add the genre name here
+                    '<p>' + genreDescription + '</p>' +
+                    '</div>' + // Close the div here
+                    '</div>';
+
+            songs.forEach(function(song, index) {
+                playlistHTML += '<div class="song" onclick="selectTrack(\'' + genre + '\', ' + index + ')">' +
+                                '<img src="' + song.image + '" alt="' + song.title + '">' +
+                                '<div class="song-info">' + // Add a div for the text content
+                                '<h3>' + song.title + '</h3>' +
+                                '<p>' + song.artist + '</p>' +
+                                '</div>' + // Close the div
+                                '</div>';
+            });
+            playlist.innerHTML = playlistHTML;
+        }
+
+        function selectTrack(genre, index) {
+            track_index = index;
+            showMusicInfo(genre, index);
+            loadTrack(genre, index); // Corrected this line
+            curr_track.play();
+        }
+
+        function clearPlaylist() {
+            var playlist = document.getElementById('playlist');
+            playlist.innerHTML = '';
+        }
+
+        function showMusicInfo(genre, index) {
+            var musicInfo = document.getElementById('musicInfo');
+            var song = genres[genre].songs[index];
+            musicInfo.style.display = 'block';
+            musicInfo.innerHTML = '<img src="' + song.image + '" alt="' + song.title + '">' +
+                                '<h3>' + song.title + '</h3>' +
+                                '<p>Artist: ' + song.artist + '</p>' +
+                                '<p>Album: ' + song.album + '</p>' +
+                                '<p>Description: ' + song.description + '</p>' +
+                                '<p>Artist Bio: ' + song.artistBio + '</p>' +
+                                '<button onclick="hideMusicInfo()">Close</button>';
+        }
+
+        function hideMusicInfo() {
+            var musicInfo = document.getElementById('musicInfo');
+            musicInfo.style.display = 'none';
+        }
+
+        function seekUpdate() {
+            var seekPosition = 0;
+
+            if (!isNaN(curr_track.duration)) {
+                seekPosition = curr_track.currentTime * (100 / curr_track.duration);
+                seek_slider.value = seekPosition;
+
+                var currentMinutes = Math.floor(curr_track.currentTime / 60);
+                var currentSeconds = Math.floor(curr_track.currentTime - currentMinutes * 60);
+                var durationMinutes = Math.floor(curr_track.duration / 60);
+                var durationSeconds = Math.floor(curr_track.duration - durationMinutes * 60);
+
+                if (currentSeconds < 10) { currentSeconds = "0" + currentSeconds; }
+                if (durationSeconds < 10) { durationSeconds = "0" + durationSeconds; }
+                if (currentMinutes < 10) { currentMinutes = "0" + currentMinutes; }
+                if (durationMinutes < 10) { durationMinutes = "0" + durationMinutes; }
+
+                curr_time.textContent = currentMinutes + ":" + currentSeconds;
+                total_duration.textContent = durationMinutes + ":" + durationSeconds;
+            }
+        }
+
+        function randomTrack() {
+            var randomIndex = Math.floor(Math.random() * genres[genre].songs.length);
+            loadTrack(genre, randomIndex);
+            curr_track.play();
+        }
+
+        function repeatTrack() {
+            curr_track.loop = !curr_track.loop;
+            repeat_btn.classList.toggle("active");
+        }
+
+        function seekTo() {
+            var seekTo = curr_track.duration * (seek_slider.value / 100);
+            curr_track.currentTime = seekTo;
+        }
+
+        function setVolume() {
+            curr_track.volume = volume_slider.value / 100;
+        }
+    </script>
+
+</body>
+</html>
